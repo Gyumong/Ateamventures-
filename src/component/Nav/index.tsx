@@ -1,9 +1,15 @@
 import React from "react";
-import { NavBlock } from "./styles";
+import { NavBlock, NavMenuIcon, NavTitle } from "./styles";
+import { BsList } from "react-icons/bs";
 const Nav = () => {
   return (
     <NavBlock>
-      <h3></h3>
+      <NavMenuIcon>
+        <BsList style={{ color: "white", width: "18px" }} />
+      </NavMenuIcon>
+      <NavTitle>
+        <strong>CAPA</strong> 파트너스
+      </NavTitle>
     </NavBlock>
   );
 };
