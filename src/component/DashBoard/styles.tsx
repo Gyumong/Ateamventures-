@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+interface SelectBtnType {
+  smail?: boolean;
+}
 export const DashBoardLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,6 +37,29 @@ export const DasBoardDesc = styled.div`
 export const BtnGroup = styled.div`
   display: flex;
   justify-content: space-around;
+  width: 182px;
+  position: relative;
 `;
 
-export const;
+export const SelectBtn = styled.div<SelectBtnType>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 12px;
+  width: ${(props) => (props.smail ? "76px" : "98px")};
+  height: 32px;
+  border: 1px solid #939fa5;
+  box-sizing: border-box;
+  border-radius: 4px;
+  &:hover {
+    border-color: #2196f3;
+  }
+`;
+
+export const SelectBtnText = styled.div`
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14.06;
+`;
+
+export const SelectBtnArrow = styled.div``;

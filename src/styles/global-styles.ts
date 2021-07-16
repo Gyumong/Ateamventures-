@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
-
+import reset from "styled-reset";
 const GlobalStyle = createGlobalStyle`
+${reset}
   * {
     box-sizing: border-box;
     margin:0;
@@ -20,6 +21,12 @@ const GlobalStyle = createGlobalStyle`
   }
   ol, ul, li {
     list-style: none;
+  }
+  select{
+    -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;       /* Remove default arrow */
+   background-image: url(...);   /* Add custom arrow */
   }
   img {
     display: block;
