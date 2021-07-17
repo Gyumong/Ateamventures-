@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   DashBoardLayout,
   DashBoardTitleGroup,
@@ -15,7 +15,14 @@ import {
 import { IoMdArrowDropdown } from "react-icons/io";
 import Switch from "@material-ui/core/Switch";
 import Card from "../Card";
+import { LoadPost } from "../../lib/slice/postSlice";
+import { useDispatch } from "react-redux";
 const DashBoard = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(LoadPost());
+  }, []);
   return (
     <DashBoardLayout>
       <DashBoardTitleGroup>
