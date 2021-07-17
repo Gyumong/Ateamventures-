@@ -21,31 +21,40 @@ import {
   BtnGroup,
   StyledButton,
 } from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { PostList } from "../../lib/slice/postSlice";
+import { IPostItem } from "../../typings/db";
+import { FC } from "react";
 
-const Card = () => {
+interface CardProps {
+  PostItem: IPostItem;
+}
+const Card: FC<CardProps> = ({ PostItem }) => {
+  // const dispatch = useDispatch();
+  console.log("dd", PostItem);
   return (
     <CardBlock>
       <RequestInfo>
-        <CardTitle>프로젝트명</CardTitle>
-        <CustomerName>고객사</CustomerName>
-        <HopeDueDate>2020.12.14까지 납기</HopeDueDate>
+        <CardTitle>{PostItem.title}</CardTitle>
+        <CustomerName>{PostItem.client}</CustomerName>
+        <HopeDueDate>{PostItem.due}까지 납기</HopeDueDate>
       </RequestInfo>
       <DetailDescGroup>
         <RequestDrawingGroup>
           <RequestDrawingDesc>도면개수</RequestDrawingDesc>
-          <RequestDrawingCount>2개</RequestDrawingCount>
+          <RequestDrawingCount>{PostItem.count}개</RequestDrawingCount>
         </RequestDrawingGroup>
         <TotalQuantityGroup>
           <TotalQuantityDesc>총 수량</TotalQuantityDesc>
-          <TotalQuantityCount>100개</TotalQuantityCount>
+          <TotalQuantityCount>{PostItem.amount}개</TotalQuantityCount>
         </TotalQuantityGroup>
         <ProcessingGroup>
           <ProcessingDesc>가공 방식</ProcessingDesc>
-          <ProcessingDetail>밀링, 선반</ProcessingDetail>
+          <ProcessingDetail>{PostItem.method.join(", ")}</ProcessingDetail>
         </ProcessingGroup>
         <MaterialGroup>
           <MaterialDesc>재료</MaterialDesc>
-          <MaterialDeatil>알루미늄</MaterialDeatil>
+          <MaterialDeatil>{PostItem.material.join(", ")}</MaterialDeatil>
         </MaterialGroup>
       </DetailDescGroup>
       <BtnGroup>

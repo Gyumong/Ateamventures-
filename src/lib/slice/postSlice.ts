@@ -39,6 +39,7 @@ export const postSlice = createSlice({
     });
     builder.addCase(LoadPost.fulfilled, (state, action) => {
       console.log(action.payload);
+      state.List = action.payload as Array<IPostItem>;
       state.LoadPostLoading = false;
       state.LoadPostSuccess = true;
     });

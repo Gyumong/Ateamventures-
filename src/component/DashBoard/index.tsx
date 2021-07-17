@@ -15,14 +15,16 @@ import {
 import { IoMdArrowDropdown } from "react-icons/io";
 import Switch from "@material-ui/core/Switch";
 import Card from "../Card";
-import { LoadPost } from "../../lib/slice/postSlice";
-import { useDispatch } from "react-redux";
+import { LoadPost, PostList } from "../../lib/slice/postSlice";
+import { useDispatch, useSelector } from "react-redux";
 const DashBoard = () => {
   const dispatch = useDispatch();
-
+  const PostData = useSelector(PostList);
   useEffect(() => {
     dispatch(LoadPost());
   }, []);
+
+  console.log(PostData);
   return (
     <DashBoardLayout>
       <DashBoardTitleGroup>
@@ -55,7 +57,9 @@ const DashBoard = () => {
           <ConsultingToggleDesc>상담 중인 요청만 보기</ConsultingToggleDesc>
         </ConsultingToggleGroup>
       </FilterGroup>
-      <Card />
+      {PostData.map((PostItem) => {
+        return <Card key={PostItem.id} PostItem={PostItem} />;
+      })}
     </DashBoardLayout>
   );
 };

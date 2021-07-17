@@ -1,6 +1,7 @@
 import React from "react";
 import { NavBlock, NavMenuIcon, NavTitle } from "./styles";
 import { BsList } from "react-icons/bs";
+
 const Nav = () => {
   return (
     <NavBlock>

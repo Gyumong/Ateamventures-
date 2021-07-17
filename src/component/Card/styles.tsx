@@ -13,6 +13,10 @@ export const CardBlock = styled.div`
   border: 1px solid #e5e5e5;
   box-sizing: border-box;
   border-radius: 4px;
+  margin-bottom: 16px;
+  :last-child {
+    margin: 0;
+  }
   &:hover {
     border: 2px solid #2196f3;
   }
