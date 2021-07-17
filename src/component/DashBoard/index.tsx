@@ -7,7 +7,13 @@ import {
   BtnGroup,
   SelectBtn,
   SelectBtnText,
+  SelectModal,
+  ConsultingToggleGroup,
+  ConsultingToggleDesc,
 } from "./styles";
+import { IoMdArrowDropdown } from "react-icons/io";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 const DashBoard = () => {
   return (
     <DashBoardLayout>
@@ -18,11 +24,27 @@ const DashBoard = () => {
       <BtnGroup>
         <SelectBtn>
           <SelectBtnText>가공방식</SelectBtnText>
+          <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
         </SelectBtn>
         <SelectBtn smail>
           <SelectBtnText>재료</SelectBtnText>
+          <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
         </SelectBtn>
+        <SelectModal style={{ display: "none" }}>
+          <p>
+            <input type="checkbox" />
+            <label>일정</label>
+          </p>
+          <p>
+            <input type="checkbox" />
+            <label>선반</label>
+          </p>
+        </SelectModal>
       </BtnGroup>
+      <ConsultingToggleGroup>
+        <Switch color="primary" />
+        <ConsultingToggleDesc>상담 중인 요청만 보기</ConsultingToggleDesc>
+      </ConsultingToggleGroup>
     </DashBoardLayout>
   );
 };

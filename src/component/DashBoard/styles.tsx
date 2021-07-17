@@ -1,8 +1,6 @@
 import styled from "styled-components";
+import Switch from "@material-ui/core/Switch";
 
-interface SelectBtnType {
-  smail?: boolean;
-}
 export const DashBoardLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,10 +39,11 @@ export const BtnGroup = styled.div`
   position: relative;
 `;
 
-export const SelectBtn = styled.div<SelectBtnType>`
+export const SelectBtn = styled.div<{ smail?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: 4px 12px;
   width: ${(props) => (props.smail ? "76px" : "98px")};
   height: 32px;
@@ -62,4 +61,52 @@ export const SelectBtnText = styled.div`
   line-height: 14.06;
 `;
 
-export const SelectBtnArrow = styled.div``;
+export const SelectModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 130px;
+  padding: 17px 12px;
+  background-color: white;
+  top: 34px;
+  left: 1px;
+  border: 1px solid #939fa5;
+  box-sizing: border-box;
+  border-radius: 4px;
+  p {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    :last-child {
+      margin: 0;
+    }
+  }
+  input {
+    margin-right: 10px;
+  }
+  label {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+`;
+
+export const ConsultingToggleGroup = styled.div`
+  display: flex;
+  align-items: center;
+
+  width: 190px;
+  flex-wrap: nowrap;
+`;
+
+export const ConsultingToggleDesc = styled.div`
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+`;
