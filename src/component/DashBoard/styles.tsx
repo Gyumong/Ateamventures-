@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import Switch from "@material-ui/core/Switch";
 
 export const DashBoardLayout = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 24px;
   padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
   @media (min-width: 720px) {
   }
 `;
@@ -32,11 +33,25 @@ export const DasBoardDesc = styled.div`
   color: #323d45;
 `;
 
+export const FilterGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+  @media (min-width: 720px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
 export const BtnGroup = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 182px;
   position: relative;
+  margin-bottom: 20px;
+  @media (min-width: 720px) {
+    margin: 0;
+  }
 `;
 
 export const SelectBtn = styled.div<{ smail?: boolean }>`
