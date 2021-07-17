@@ -50,7 +50,11 @@ export const postSlice = createSlice({
   },
 });
 
-// export const {  } = todoSlice.actions;
+const PostState = (state: RootState) => state.post.List;
+
+export const getFilterStatus = createSelector(PostState, (lists) => {
+  return lists.filter(({ status }: { status: string }) => status === "상담중");
+});
 
 export const PostList = (state: RootState) => state.post.List;
 

@@ -77,6 +77,7 @@ export const SelectBtnText = styled.div`
 `;
 
 export const SelectModal = styled.div`
+  z-index: 100;
   display: flex;
   flex-direction: column;
   position: absolute;

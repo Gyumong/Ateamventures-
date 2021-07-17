@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   DashBoardLayout,
   DashBoardTitleGroup,
@@ -15,16 +15,38 @@ import {
 import { IoMdArrowDropdown } from "react-icons/io";
 import Switch from "@material-ui/core/Switch";
 import Card from "../Card";
-import { LoadPost, PostList } from "../../lib/slice/postSlice";
+import { LoadPost, PostList, getFilterStatus } from "../../lib/slice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from "react";
 const DashBoard = () => {
   const dispatch = useDispatch();
+  const modalEl = useRef<HTMLDivElement>(null);
+  const [isOpen, setOpen] = useState(false);
+  const [state, setState] = useState<"A" | "B" | "C">("A");
+  const [toggle, setToggle] = useState(false);
   const PostData = useSelector(PostList);
+  const FilterStatusData = useSelector(getFilterStatus);
   useEffect(() => {
     dispatch(LoadPost());
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent): void {
+      if (modalEl.current && !modalEl.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalEl]);
+
+  const handleChange = useCallback(() => {
+    setToggle((prev) => !prev);
+  }, []);
   console.log(PostData);
+  console.log(state);
   return (
     <DashBoardLayout>
       <DashBoardTitleGroup>
@@ -33,7 +55,7 @@ const DashBoard = () => {
       </DashBoardTitleGroup>
       <FilterGroup>
         <BtnGroup>
-          <SelectBtn>
+          <SelectBtn onClick={() => setOpen((prev) => !prev)}>
             <SelectBtnText>가공방식</SelectBtnText>
             <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
           </SelectBtn>
@@ -41,25 +63,31 @@ const DashBoard = () => {
             <SelectBtnText>재료</SelectBtnText>
             <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
           </SelectBtn>
-          <SelectModal style={{ display: "none" }}>
-            <p>
-              <input type="checkbox" />
-              <label>일정</label>
-            </p>
-            <p>
-              <input type="checkbox" />
-              <label>선반</label>
-            </p>
-          </SelectModal>
+          {isOpen && (
+            <SelectModal ref={modalEl}>
+              <p>
+                <input type="checkbox" />
+                <label>일정</label>
+              </p>
+              <p>
+                <input type="checkbox" />
+                <label>선반</label>
+              </p>
+            </SelectModal>
+          )}
         </BtnGroup>
         <ConsultingToggleGroup>
-          <Switch color="primary" />
+          <Switch color="primary" checked={toggle} onChange={handleChange} />
           <ConsultingToggleDesc>상담 중인 요청만 보기</ConsultingToggleDesc>
         </ConsultingToggleGroup>
       </FilterGroup>
-      {PostData.map((PostItem) => {
-        return <Card key={PostItem.id} PostItem={PostItem} />;
-      })}
+      {toggle
+        ? FilterStatusData.map((List) => {
+            return <Card key={List.id} PostItem={List} />;
+          })
+        : PostData.map((PostItem) => {
+            return <Card key={PostItem.id} PostItem={PostItem} />;
+          })}
     </DashBoardLayout>
   );
 };
