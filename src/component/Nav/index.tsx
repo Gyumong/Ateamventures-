@@ -9,13 +9,15 @@ import {
   NavTitle,
   SliderBlock,
   Slider,
+  SliderContentBlock,
+  SliderContent,
 } from "./styles";
 import { BsList } from "react-icons/bs";
 
 const Nav = () => {
   const [state, setState] = useState(false);
   return (
-    <NavBlock>
+    <NavBlock on={state}>
       <NavMenuIcon onClick={() => setState((prev) => !prev)}>
         <BsList style={{ color: "white", width: "18px" }} />
       </NavMenuIcon>
@@ -29,11 +31,20 @@ const Nav = () => {
           <NavDescUserBtn>로그아웃</NavDescUserBtn>
         </NavDescBlock>
       </div>
-      {state ? (
-        <SliderBlock onClick={() => setState((prev) => !prev)}>
-          <Slider on={state} onClick={(e) => e.stopPropagation()}></Slider>
-        </SliderBlock>
-      ) : null}
+
+      <SliderBlock onClick={() => setState((prev) => !prev)} on={state}>
+        <Slider on={state} onClick={(e) => e.stopPropagation()}>
+          <NavBlock on={state}>
+            <NavTitle on={state}>
+              <strong>CAPA</strong> 파트너스
+            </NavTitle>
+          </NavBlock>
+          <SliderContentBlock>
+            <SliderContent>파트너정밀가공</SliderContent>
+            <SliderContent>로그아웃</SliderContent>
+          </SliderContentBlock>
+        </Slider>
+      </SliderBlock>
     </NavBlock>
   );
 };

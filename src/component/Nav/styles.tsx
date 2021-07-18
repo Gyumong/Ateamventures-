@@ -4,10 +4,10 @@ interface SliderProps {
   on?: boolean;
 }
 
-export const NavBlock = styled.div`
+export const NavBlock = styled.div<SliderProps>`
   width: 100%;
   height: 44px;
-  background-color: #1565c0;
+  background-color: ${(props) => (props.on ? "white" : "#1565c0")};
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.24);
   display: flex;
   align-items: center;
@@ -28,8 +28,10 @@ export const NavMenuIcon = styled.svg`
   }
 `;
 
-export const NavTitle = styled.h1`
-  color: white;
+export const NavTitle = styled.h1<SliderProps>`
+  color: ${(props) => (props.on ? "#2196F3" : "white")};
+  z-index: ${(props) => (props.on ? "200" : "0")};
+  width: 100%;
   display: flex;
   align-items: center;
   text-align: center;
@@ -37,6 +39,7 @@ export const NavTitle = styled.h1`
   font-weight: 300;
   strong {
     font-weight: 700;
+    z-index: 200;
   }
   @media (min-width: 720px) {
   }
@@ -66,17 +69,18 @@ export const NavDescSlash = styled.div`
   background-color: white;
 `;
 
-export const SliderBlock = styled.div`
+export const SliderBlock = styled.div<SliderProps>`
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 150;
-  background-color: rgba(0, 0, 0, 0.6);
+  z-index: ${(props) => (props.on ? "200" : "0")};
+  transition: all 250ms ease-in;
+  background-color: ${(props) => (props.on ? "rgba(0, 0, 0, 0.6)" : "none")};
 `;
 export const Slider = styled.div<SliderProps>`
-  width: 90%;
+  width: 70%;
   position: absolute;
   left: -100%;
   top: 0;
@@ -89,4 +93,22 @@ export const Slider = styled.div<SliderProps>`
     css`
       left: 0;
     `};
+`;
+
+export const SliderContentBlock = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 36px 32px;
+`;
+
+export const SliderContent = styled.div`
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #323d45;
+  margin-bottom: 24px;
 `;
