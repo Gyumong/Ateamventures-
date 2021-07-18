@@ -56,7 +56,6 @@ const DashBoard = () => {
     if (isChecked.length > 0 && isMaterialChecked.length > 0) {
       setMultiFilterPost(MethodFilterPost.filter((it) => MaterialFilterPost.includes(it)));
     }
-    console.log(MultiFilterPost);
   }, [isChecked, isMaterialChecked, MethodFilterPost, MaterialFilterPost]);
   useEffect(() => {
     if (toggle) {
@@ -124,7 +123,7 @@ const DashBoard = () => {
 
   const handleChangeMethod = (e: any) => {
     // updating an object instead of a Map
-    console.log(e.target.checked);
+
     if (e.target.checked === true) {
       setIsChecked([...isChecked, e.target.value]);
     } else {
@@ -134,7 +133,7 @@ const DashBoard = () => {
 
   const handleMaterialChangeMethod = (e: any) => {
     // updating an object instead of a Map
-    console.log(e.target.checked);
+
     if (e.target.checked === true) {
       setIsMaterialChecked([...isMaterialChecked, e.target.value]);
     } else {

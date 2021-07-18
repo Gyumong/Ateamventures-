@@ -7,6 +7,9 @@ export const DashBoardLayout = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
+  @media (min-width: 720px) {
+    padding: 40px 155px;
+  }
 `;
 
 export const DashBoardTitleGroup = styled.div`

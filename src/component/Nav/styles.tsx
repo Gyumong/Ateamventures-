@@ -75,9 +75,12 @@ export const SliderBlock = styled.div<SliderProps>`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: ${(props) => (props.on ? "200" : "0")};
+  z-index: ${(props) => (props.on ? "200" : "-100")};
   transition: all 250ms ease-in;
   background-color: ${(props) => (props.on ? "rgba(0, 0, 0, 0.6)" : "none")};
+  @media (min-width: 720px) {
+    display: none;
+  }
 `;
 export const Slider = styled.div<SliderProps>`
   width: 70%;
