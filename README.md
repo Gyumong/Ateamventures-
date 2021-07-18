@@ -4,6 +4,7 @@
 
 - JSON DATA 맵핑 
   - json 서버 띄운후 axios로 api 호출
+  - proxy 설정 localhost4000
   
 - JSON 데이터 가공(필터링)
   - checked 된 값 2개 교집합도 보여주기
