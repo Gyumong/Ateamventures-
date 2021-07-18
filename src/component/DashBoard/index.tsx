@@ -15,21 +15,32 @@ import {
 import { IoMdArrowDropdown } from "react-icons/io";
 import Switch from "@material-ui/core/Switch";
 import Card from "../Card";
-import { LoadPost, PostList, getFilterStatus, filterMethod } from "../../lib/slice/postSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
+import { IPostItem } from "../../typings/db";
+import axios from "axios";
 const DashBoard = () => {
-  const dispatch = useDispatch();
   const modalEl = useRef<HTMLDivElement>(null);
   const [isOpen, setOpen] = useState(false);
-  const [state, setState] = useState<"A" | "B" | "C">("A");
   const [toggle, setToggle] = useState(false);
-  const [isChecked, setIsChecked] = useState<{ [prop: string]: any }>({});
-  const PostData = useSelector(PostList);
-  const FilterStatusData = useSelector(getFilterStatus);
+  const [isChecked, setIsChecked] = useState<Array<string>>([]);
+  const [Post, setPost] = useState<Array<IPostItem>>([]);
+  async function getPostData() {
+    const response = await axios.get("/requests");
+    setPost(response.data);
+  }
   useEffect(() => {
-    dispatch(LoadPost());
+    getPostData();
   }, []);
+
+  useEffect(() => {
+    if (toggle) {
+      const toggleData = Post.filter((it) => it.status === "상담중");
+      setPost(toggleData);
+    } else {
+      getPostData();
+    }
+    console.log(isChecked);
+  }, [toggle, isChecked]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
@@ -47,17 +58,15 @@ const DashBoard = () => {
     setToggle((prev) => !prev);
   }, []);
 
-  const handleChangeMethod = (event: any) => {
+  const handleChangeMethod = (e: any) => {
     // updating an object instead of a Map
-    setIsChecked({ ...isChecked, [event.target.value]: event.target.checked });
+    console.log(e.target.checked);
+    if (e.target.checked === true) {
+      setIsChecked([...isChecked, e.target.value]);
+    } else {
+      setIsChecked(isChecked.filter((it) => it !== e.target.value));
+    }
   };
-
-  useEffect(() => {
-    console.log("checkedItems: ", isChecked);
-    dispatch(filterMethod(isChecked));
-  }, [isChecked, dispatch]);
-
-  console.log(PostData);
 
   const MethodData = [
     { id: 1, value: "밀링" },
@@ -81,15 +90,10 @@ const DashBoard = () => {
           </SelectBtn>
           {isOpen && (
             <SelectModal ref={modalEl}>
-              {MethodData.map((item) => {
+              {MethodData.map((item, index) => {
                 return (
                   <p key={item.id}>
-                    <input
-                      type="checkbox"
-                      value={item.value}
-                      checked={isChecked[item.value]}
-                      onChange={handleChangeMethod}
-                    />
+                    <input type="checkbox" value={item.value} onChange={handleChangeMethod} />
                     <label>{item.value}</label>
                   </p>
                 );
@@ -102,13 +106,9 @@ const DashBoard = () => {
           <ConsultingToggleDesc>상담 중인 요청만 보기</ConsultingToggleDesc>
         </ConsultingToggleGroup>
       </FilterGroup>
-      {toggle
-        ? FilterStatusData.map((List) => {
-            return <Card key={List.id} PostItem={List} />;
-          })
-        : PostData.map((PostItem) => {
-            return <Card key={PostItem.id} PostItem={PostItem} />;
-          })}
+      {Post.map((PostItem) => {
+        return <Card key={PostItem.id} PostItem={PostItem} />;
+      })}
     </DashBoardLayout>
   );
 };

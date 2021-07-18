@@ -21,8 +21,6 @@ import {
   BtnGroup,
   StyledButton,
 } from "./styles";
-import { useDispatch, useSelector } from "react-redux";
-import { PostList } from "../../lib/slice/postSlice";
 import { IPostItem } from "../../typings/db";
 import { FC } from "react";
 
