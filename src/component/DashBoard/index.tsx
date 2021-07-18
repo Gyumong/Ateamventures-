@@ -168,11 +168,14 @@ const DashBoard = () => {
           <div style={{ width: "210px", display: "flex", justifyContent: "space-between" }}>
             <SelectBtn onClick={() => setOpen((prev) => !prev)} isChecked={isChecked.length > 0}>
               <SelectBtnText>가공방식{isChecked.length > 0 ? `(${isChecked.length})` : null}</SelectBtnText>
-              <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
+              <IoMdArrowDropdown style={{ fontSize: "20px" }} color={isChecked.length > 0 ? "white" : "#939FA5"} />
             </SelectBtn>
             <SelectBtn smail onClick={() => setNextOpen((prev) => !prev)} isChecked={isMaterialChecked.length > 0}>
               <SelectBtnText>재료{isMaterialChecked.length > 0 ? `(${isMaterialChecked.length})` : null}</SelectBtnText>
-              <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
+              <IoMdArrowDropdown
+                style={{ fontSize: "20px" }}
+                color={isMaterialChecked.length > 0 ? "white" : "#939FA5"}
+              />
             </SelectBtn>
           </div>
           {isOpen && (
