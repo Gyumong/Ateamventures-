@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState, useEffect, useRef } from "react";
 import {
   DashBoardLayout,
@@ -11,6 +12,7 @@ import {
   SelectModal,
   ConsultingToggleGroup,
   ConsultingToggleDesc,
+  SelectNextModal,
 } from "./styles";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Switch from "@material-ui/core/Switch";
@@ -20,10 +22,16 @@ import { IPostItem } from "../../typings/db";
 import axios from "axios";
 const DashBoard = () => {
   const modalEl = useRef<HTMLDivElement>(null);
+  const nextmodalEl = useRef<HTMLDivElement>(null);
   const [isOpen, setOpen] = useState(false);
+  const [isNextOpen, setNextOpen] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [isChecked, setIsChecked] = useState<Array<string>>([]);
+  const [isMaterialChecked, setIsMaterialChecked] = useState<Array<string>>([]);
   const [Post, setPost] = useState<Array<IPostItem>>([]);
+  const [MethodFilterPost, setMethodFilterPost] = useState<Array<IPostItem>>([]);
+  const [MaterialFilterPost, setMaterialFilterPost] = useState<Array<IPostItem>>([]);
+  const [MultiFilterPost, setMultiFilterPost] = useState<Array<IPostItem>>([]);
   async function getPostData() {
     const response = await axios.get("/requests");
     setPost(response.data);
@@ -33,14 +41,46 @@ const DashBoard = () => {
   }, []);
 
   useEffect(() => {
+    if (isChecked.length > 0 && isMaterialChecked.length > 0) {
+      setMultiFilterPost(MethodFilterPost.filter((it) => MaterialFilterPost.includes(it)));
+    }
+    console.log(MultiFilterPost);
+  }, [isChecked, isMaterialChecked, MethodFilterPost, MaterialFilterPost]);
+  useEffect(() => {
     if (toggle) {
       const toggleData = Post.filter((it) => it.status === "상담중");
       setPost(toggleData);
     } else {
       getPostData();
     }
-    console.log(isChecked);
-  }, [toggle, isChecked]);
+  }, [toggle]);
+
+  useEffect(() => {
+    // state.FilterList = state.List.filter((item) => item.method.some((it) => b.includes(it)));
+    if (isChecked.length === 0) {
+      getPostData();
+    } else if (isChecked.length === 2) {
+      const MethodFilterData = Post.filter((item) => isChecked.every((it) => item.method.includes(it)));
+
+      setMethodFilterPost(MethodFilterData);
+    } else {
+      const MethodFilterData = Post.filter((item) => item.method.some((it) => isChecked.includes(it)));
+      setMethodFilterPost(MethodFilterData);
+    }
+  }, [isChecked]);
+
+  useEffect(() => {
+    // state.FilterList = state.List.filter((item) => item.method.some((it) => b.includes(it)));
+    if (isMaterialChecked.length === 0) {
+      getPostData();
+    } else if (isMaterialChecked.length >= 2) {
+      const MaterialFilterData = Post.filter((item) => isMaterialChecked.every((it) => item.material.includes(it)));
+      setMaterialFilterPost(MaterialFilterData);
+    } else {
+      const MaterialFilterData = Post.filter((item) => item.material.some((it) => isMaterialChecked.includes(it)));
+      setMaterialFilterPost(MaterialFilterData);
+    }
+  }, [isMaterialChecked]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
@@ -53,6 +93,18 @@ const DashBoard = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalEl]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent): void {
+      if (nextmodalEl.current && !nextmodalEl.current.contains(e.target as Node)) {
+        setNextOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [nextmodalEl]);
 
   const handleChange = useCallback(() => {
     setToggle((prev) => !prev);
@@ -68,9 +120,26 @@ const DashBoard = () => {
     }
   };
 
+  const handleMaterialChangeMethod = (e: any) => {
+    // updating an object instead of a Map
+    console.log(e.target.checked);
+    if (e.target.checked === true) {
+      setIsMaterialChecked([...isMaterialChecked, e.target.value]);
+    } else {
+      setIsMaterialChecked(isMaterialChecked.filter((it) => it !== e.target.value));
+    }
+  };
+
   const MethodData = [
     { id: 1, value: "밀링" },
     { id: 2, value: "선반" },
+  ];
+  const MaterialData = [
+    { id: 1, value: "알루미늄" },
+    { id: 2, value: "탄소강" },
+    { id: 3, value: "구리" },
+    { id: 4, value: "합금강" },
+    { id: 5, value: "강철" },
   ];
   return (
     <DashBoardLayout>
@@ -85,12 +154,12 @@ const DashBoard = () => {
             <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
           </SelectBtn>
           <SelectBtn smail>
-            <SelectBtnText>재료</SelectBtnText>
+            <SelectBtnText onClick={() => setNextOpen((prev) => !prev)}>재료</SelectBtnText>
             <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
           </SelectBtn>
           {isOpen && (
             <SelectModal ref={modalEl}>
-              {MethodData.map((item, index) => {
+              {MethodData.map((item) => {
                 return (
                   <p key={item.id}>
                     <input type="checkbox" value={item.value} onChange={handleChangeMethod} />
@@ -100,15 +169,43 @@ const DashBoard = () => {
               })}
             </SelectModal>
           )}
+          {isNextOpen && (
+            <SelectNextModal ref={nextmodalEl}>
+              {MaterialData.map((item) => {
+                return (
+                  <p key={item.id}>
+                    <input type="checkbox" value={item.value} onChange={handleMaterialChangeMethod} />
+                    <label>{item.value}</label>
+                  </p>
+                );
+              })}
+            </SelectNextModal>
+          )}
         </BtnGroup>
         <ConsultingToggleGroup>
           <Switch color="primary" checked={toggle} onChange={handleChange} />
           <ConsultingToggleDesc>상담 중인 요청만 보기</ConsultingToggleDesc>
         </ConsultingToggleGroup>
       </FilterGroup>
-      {Post.map((PostItem) => {
-        return <Card key={PostItem.id} PostItem={PostItem} />;
-      })}
+      {(() => {
+        if (isChecked.length > 0 && isMaterialChecked.length === 0) {
+          return MethodFilterPost.map((PostItem) => {
+            return <Card key={PostItem.id} PostItem={PostItem} />;
+          });
+        } else if (isMaterialChecked.length > 0 && isChecked.length === 0) {
+          return MaterialFilterPost.map((PostItem) => {
+            return <Card key={PostItem.id} PostItem={PostItem} />;
+          });
+        } else if (isChecked.length > 0 && isMaterialChecked.length > 0) {
+          return MultiFilterPost.map((PostItem) => {
+            return <Card key={PostItem.id} PostItem={PostItem} />;
+          });
+        } else {
+          return Post.map((PostItem) => {
+            return <Card key={PostItem.id} PostItem={PostItem} />;
+          });
+        }
+      })()}
     </DashBoardLayout>
   );
 };
