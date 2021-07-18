@@ -7,8 +7,6 @@ export const DashBoardLayout = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
-  @media (min-width: 720px) {
-  }
 `;
 
 export const DashBoardTitleGroup = styled.div`
@@ -50,6 +48,7 @@ export const BtnGroup = styled.div`
   position: relative;
   margin-bottom: 20px;
   h4 {
+    cursor: pointer;
     color: #2196f3;
     font-size: 12px;
     font-style: normal;
@@ -76,6 +75,7 @@ export const SelectBtn = styled.div<{ smail?: boolean; isChecked?: boolean }>`
   border: 1px solid #939fa5;
   box-sizing: border-box;
   border-radius: 4px;
+  cursor: pointer;
   &:hover {
     border-color: #2196f3;
   }
@@ -89,6 +89,7 @@ export const SelectBtnText = styled.div`
 
 export const SelectModal = styled.div`
   z-index: 100;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   position: absolute;

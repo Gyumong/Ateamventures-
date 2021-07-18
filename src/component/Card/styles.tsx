@@ -6,6 +6,7 @@ interface StyledButtonProps {
 
 export const CardBlock = styled.div`
   width: 100%;
+  max-width: 366px;
   display: flex;
   flex-direction: column;
   padding: 24px 16px;

@@ -20,7 +20,19 @@ import Card from "../Card";
 import { useCallback } from "react";
 import { IPostItem } from "../../typings/db";
 import axios from "axios";
+import { Grid, Container } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+  }),
+);
+
 const DashBoard = () => {
+  const classes = useStyles();
   const modalEl = useRef<HTMLDivElement>(null);
   const nextmodalEl = useRef<HTMLDivElement>(null);
   const [isOpen, setOpen] = useState(false);
@@ -201,25 +213,44 @@ const DashBoard = () => {
           <ConsultingToggleDesc>상담 중인 요청만 보기</ConsultingToggleDesc>
         </ConsultingToggleGroup>
       </FilterGroup>
-      {(() => {
-        if (isChecked.length > 0 && isMaterialChecked.length === 0) {
-          return MethodFilterPost.map((PostItem) => {
-            return <Card key={PostItem.id} PostItem={PostItem} />;
-          });
-        } else if (isMaterialChecked.length > 0 && isChecked.length === 0) {
-          return MaterialFilterPost.map((PostItem) => {
-            return <Card key={PostItem.id} PostItem={PostItem} />;
-          });
-        } else if (isChecked.length > 0 && isMaterialChecked.length > 0) {
-          return MultiFilterPost.map((PostItem) => {
-            return <Card key={PostItem.id} PostItem={PostItem} />;
-          });
-        } else {
-          return Post.map((PostItem) => {
-            return <Card key={PostItem.id} PostItem={PostItem} />;
-          });
-        }
-      })()}
+
+      <Grid container spacing={3}>
+        {(() => {
+          if (isChecked.length > 0 && isMaterialChecked.length === 0) {
+            return MethodFilterPost.map((PostItem) => {
+              return (
+                <Grid item xs={12} sm={4}>
+                  <Card key={PostItem.id} PostItem={PostItem} />
+                </Grid>
+              );
+            });
+          } else if (isMaterialChecked.length > 0 && isChecked.length === 0) {
+            return MaterialFilterPost.map((PostItem) => {
+              return (
+                <Grid item xs={12} sm={4}>
+                  <Card key={PostItem.id} PostItem={PostItem} />
+                </Grid>
+              );
+            });
+          } else if (isChecked.length > 0 && isMaterialChecked.length > 0) {
+            return MultiFilterPost.map((PostItem) => {
+              return (
+                <Grid item xs={12} sm={4}>
+                  <Card key={PostItem.id} PostItem={PostItem} />
+                </Grid>
+              );
+            });
+          } else {
+            return Post.map((PostItem) => {
+              return (
+                <Grid item xs={12} sm={4}>
+                  <Card key={PostItem.id} PostItem={PostItem} />
+                </Grid>
+              );
+            });
+          }
+        })()}
+      </Grid>
     </DashBoardLayout>
   );
 };
