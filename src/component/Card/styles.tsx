@@ -148,3 +148,33 @@ export const StyledButton = styled.button<StyledButtonProps>`
     color: ${(props) => (props.primary ? "white" : "#2196F3")};
   }
 `;
+
+export const TitleBlock = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; ;
+`;
+export const StatusMark = styled.div`
+  height: 24px;
+  width: 50px;
+  border-radius: 12px;
+  padding: 2px, 8px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ffa000;
+`;
+export const StatusMarkDesc = styled.div`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  /* identical to box height, or 167% */
+  display: flex;
+  align-items: center;
+  text-align: right;
+  /* Warning / Dark */
+  color: #ffa000;
+`;

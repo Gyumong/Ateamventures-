@@ -20,6 +20,9 @@ import {
   MaterialDeatil,
   BtnGroup,
   StyledButton,
+  StatusMark,
+  StatusMarkDesc,
+  TitleBlock,
 } from "./styles";
 import { IPostItem } from "../../typings/db";
 import { FC } from "react";
@@ -33,7 +36,14 @@ const Card: FC<CardProps> = ({ PostItem }) => {
   return (
     <CardBlock>
       <RequestInfo>
-        <CardTitle>{PostItem.title}</CardTitle>
+        <TitleBlock>
+          <CardTitle>{PostItem.title}</CardTitle>
+          {PostItem.status === "상담중" ? (
+            <StatusMark>
+              <StatusMarkDesc>상담중</StatusMarkDesc>
+            </StatusMark>
+          ) : null}
+        </TitleBlock>
         <CustomerName>{PostItem.client}</CustomerName>
         <HopeDueDate>{PostItem.due}까지 납기</HopeDueDate>
       </RequestInfo>
