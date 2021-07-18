@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+interface SliderProps {
+  on?: boolean;
+}
 
 export const NavBlock = styled.div`
   width: 100%;
@@ -60,4 +64,29 @@ export const NavDescSlash = styled.div`
   height: 100%;
   color: white;
   background-color: white;
+`;
+
+export const SliderBlock = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 150;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+export const Slider = styled.div<SliderProps>`
+  width: 90%;
+  position: absolute;
+  left: -100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  transition: all 250ms ease-in;
+  ${(props) =>
+    props.on &&
+    css`
+      left: 0;
+    `};
 `;
