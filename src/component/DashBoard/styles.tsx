@@ -110,6 +110,10 @@ export const SelectModal = styled.div`
   }
 `;
 
+export const SelectNextModal = styled(SelectModal)`
+  top: 34px;
+  left: 105px;
+`;
 export const ConsultingToggleGroup = styled.div`
   display: flex;
   align-items: center;

@@ -29,7 +29,7 @@ interface CardProps {
 }
 const Card: FC<CardProps> = ({ PostItem }) => {
   // const dispatch = useDispatch();
-  console.log("dd", PostItem);
+
   return (
     <CardBlock>
       <RequestInfo>
