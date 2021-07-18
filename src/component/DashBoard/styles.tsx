@@ -44,23 +44,34 @@ export const FilterGroup = styled.div`
 `;
 export const BtnGroup = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  width: 182px;
+  width: 320px;
   position: relative;
   margin-bottom: 20px;
+  h4 {
+    color: #2196f3;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+  }
   @media (min-width: 720px) {
     margin: 0;
   }
 `;
 
-export const SelectBtn = styled.div<{ smail?: boolean }>`
+export const SelectBtn = styled.div<{ smail?: boolean; isChecked?: boolean }>`
   display: flex;
+  background-color: ${(props) => (props.isChecked ? "#1565C0" : "white")};
+  color: ${(props) => (props.isChecked ? "white" : "black")};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 4px 12px;
-  width: ${(props) => (props.smail ? "76px" : "98px")};
+  width: ${(props) => (props.smail ? "90px" : "110px")};
   height: 32px;
   border: 1px solid #939fa5;
   box-sizing: border-box;

@@ -14,7 +14,7 @@ import {
   ConsultingToggleDesc,
   SelectNextModal,
 } from "./styles";
-import { IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropdown, IoIosRefresh } from "react-icons/io";
 import Switch from "@material-ui/core/Switch";
 import Card from "../Card";
 import { useCallback } from "react";
@@ -130,6 +130,11 @@ const DashBoard = () => {
     }
   };
 
+  const ReSet = () => {
+    setIsChecked([]);
+    setIsMaterialChecked([]);
+  };
+
   const MethodData = [
     { id: 1, value: "밀링" },
     { id: 2, value: "선반" },
@@ -149,12 +154,12 @@ const DashBoard = () => {
       </DashBoardTitleGroup>
       <FilterGroup>
         <BtnGroup>
-          <SelectBtn onClick={() => setOpen((prev) => !prev)}>
-            <SelectBtnText>가공방식</SelectBtnText>
+          <SelectBtn onClick={() => setOpen((prev) => !prev)} isChecked={isChecked.length > 0}>
+            <SelectBtnText>가공방식{isChecked.length > 0 ? `(${isChecked.length})` : null}</SelectBtnText>
             <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
           </SelectBtn>
-          <SelectBtn smail>
-            <SelectBtnText onClick={() => setNextOpen((prev) => !prev)}>재료</SelectBtnText>
+          <SelectBtn smail onClick={() => setNextOpen((prev) => !prev)} isChecked={isMaterialChecked.length > 0}>
+            <SelectBtnText>재료{isMaterialChecked.length > 0 ? `(${isMaterialChecked.length})` : null}</SelectBtnText>
             <IoMdArrowDropdown style={{ fontSize: "20px" }} color={"#939FA5"} />
           </SelectBtn>
           {isOpen && (
@@ -162,7 +167,12 @@ const DashBoard = () => {
               {MethodData.map((item) => {
                 return (
                   <p key={item.id}>
-                    <input type="checkbox" value={item.value} onChange={handleChangeMethod} />
+                    <input
+                      type="checkbox"
+                      value={item.value}
+                      onChange={handleChangeMethod}
+                      checked={isChecked.includes(item.value)}
+                    />
                     <label>{item.value}</label>
                   </p>
                 );
@@ -181,6 +191,10 @@ const DashBoard = () => {
               })}
             </SelectNextModal>
           )}
+          <div style={{ display: "flex", alignItems: "center" }} onClick={ReSet}>
+            <IoIosRefresh color="#2196F3" />
+            <h4>필터링 리셋</h4>
+          </div>
         </BtnGroup>
         <ConsultingToggleGroup>
           <Switch color="primary" checked={toggle} onChange={handleChange} />
