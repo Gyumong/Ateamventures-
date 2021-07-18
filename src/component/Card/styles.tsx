@@ -141,6 +141,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
   font-family: Noto Sans KR;
   line-height: 20px;
   border-radius: 4px;
+  cursor: pointer;
   background-color: ${(props) => (props.primary ? "#2196F3" : "white")};
   border: ${(props) => (props.primary ? "white" : "1px solid #2196F3")};
   border-radius: 4px;
