@@ -15,7 +15,7 @@ import {
 import { IoMdArrowDropdown } from "react-icons/io";
 import Switch from "@material-ui/core/Switch";
 import Card from "../Card";
-import { LoadPost, PostList, getFilterStatus } from "../../lib/slice/postSlice";
+import { LoadPost, PostList, getFilterStatus, filterMethod } from "../../lib/slice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 const DashBoard = () => {
@@ -24,6 +24,7 @@ const DashBoard = () => {
   const [isOpen, setOpen] = useState(false);
   const [state, setState] = useState<"A" | "B" | "C">("A");
   const [toggle, setToggle] = useState(false);
+  const [isChecked, setIsChecked] = useState<{ [prop: string]: any }>({});
   const PostData = useSelector(PostList);
   const FilterStatusData = useSelector(getFilterStatus);
   useEffect(() => {
@@ -45,8 +46,23 @@ const DashBoard = () => {
   const handleChange = useCallback(() => {
     setToggle((prev) => !prev);
   }, []);
+
+  const handleChangeMethod = (event: any) => {
+    // updating an object instead of a Map
+    setIsChecked({ ...isChecked, [event.target.value]: event.target.checked });
+  };
+
+  useEffect(() => {
+    console.log("checkedItems: ", isChecked);
+    dispatch(filterMethod(isChecked));
+  }, [isChecked, dispatch]);
+
   console.log(PostData);
-  console.log(state);
+
+  const MethodData = [
+    { id: 1, value: "밀링" },
+    { id: 2, value: "선반" },
+  ];
   return (
     <DashBoardLayout>
       <DashBoardTitleGroup>
@@ -65,14 +81,19 @@ const DashBoard = () => {
           </SelectBtn>
           {isOpen && (
             <SelectModal ref={modalEl}>
-              <p>
-                <input type="checkbox" />
-                <label>일정</label>
-              </p>
-              <p>
-                <input type="checkbox" />
-                <label>선반</label>
-              </p>
+              {MethodData.map((item) => {
+                return (
+                  <p key={item.id}>
+                    <input
+                      type="checkbox"
+                      value={item.value}
+                      checked={isChecked[item.value]}
+                      onChange={handleChangeMethod}
+                    />
+                    <label>{item.value}</label>
+                  </p>
+                );
+              })}
             </SelectModal>
           )}
         </BtnGroup>

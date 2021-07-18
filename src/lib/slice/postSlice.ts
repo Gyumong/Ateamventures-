@@ -18,6 +18,8 @@ interface stateType {
   LoadPostSuccess: boolean;
   LoadPostError: boolean;
   List: Array<IPostItem>;
+  FilterList: Array<IPostItem>;
+  filterA: { [prop: string]: any };
 }
 
 const initialState: stateType = {
@@ -25,12 +27,33 @@ const initialState: stateType = {
   LoadPostSuccess: false,
   LoadPostError: false,
   List: [],
+  FilterList: [],
+  filterA: {},
 };
 
+// 선택된 값이 들어있는 것들만 찾고 싶다.
+// 선택이 해제 되면 전부 다 찾는다.
 export const postSlice = createSlice({
   name,
   initialState,
-  reducers: {},
+  reducers: {
+    filterMethod: (state, action) => {
+      console.log(action.payload);
+      state.FilterList = [];
+      const { payload } = action;
+      let b: string | any[] = [];
+      for (const data in payload) {
+        if (payload[data] === true) {
+          b = b.concat(data);
+        }
+        console.log(state.FilterList);
+      }
+      console.log(b);
+      // state.List.filter((item) => item.method.filter((it) => b.includes(it)));
+      state.FilterList = state.List.filter((item) => item.method.some((it) => b.includes(it)));
+      // state.List =state.List.filter(item => item.method.includes)
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(LoadPost.pending, (state) => {
       state.LoadPostLoading = true;
@@ -58,4 +81,5 @@ export const getFilterStatus = createSelector(PostState, (lists) => {
 
 export const PostList = (state: RootState) => state.post.List;
 
+export const { filterMethod } = postSlice.actions;
 export default postSlice.reducer;
